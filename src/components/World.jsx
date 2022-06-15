@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { css } from '@emotion/css';
 import { useRecoilState } from 'recoil';
 import { blocksState } from '../atoms';
@@ -304,6 +304,10 @@ const World = () => {
                 );
             }
         });
+    });
+
+    useEffect(() => {
+        localStorage.setItem('storagedBlocks', JSON.stringify(blocks.toJS()));
     });
 
     return (

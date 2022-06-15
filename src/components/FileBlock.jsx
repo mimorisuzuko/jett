@@ -38,7 +38,7 @@ const FileBlock = (props) => {
                         display: inline-block;
                     `}
                     onChange={({ currentTarget: { value } }) => {
-                        updateBlock((a) => a.set('type', value));
+                        updateBlock((a) => a.set('fileType', value));
                     }}
                 >
                     {Object.keys(BLOCK.FILE_TYPE).map((k) => (

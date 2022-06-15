@@ -6,6 +6,11 @@ export const BLOCK = {
     FILE_TYPE: {
         TXT: 'txt',
         JSON: 'json'
+    },
+    TYPE: {
+        VIEW: 'view',
+        FUNCTION: 'function',
+        FILE: 'file'
     }
 };
 

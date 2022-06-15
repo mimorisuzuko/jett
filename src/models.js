@@ -22,6 +22,8 @@ export class FileBlockModel extends Record({
             x: a.x,
             y: a.y,
             width: a.width,
+            path: a.path,
+            fileType: a.fileType,
             outputPins: List(
                 a.outputPins.map(
                     (b) =>

@@ -10,8 +10,9 @@ import { BLOCK, PIN } from '../constants';
 import { List } from 'immutable';
 import FunctionBlock from './FunctionBlock';
 import BlockCreator from './BlockCreator';
-import { COLORS } from '../styles';
+import { COLORS, FONT_SIZE } from '../styles';
 import { dialog } from '@electron/remote';
+import Options from './Options';
 
 const World = () => {
     const [selectedBlockIndex, setSelectedBlockIndex] = useState(null);
@@ -19,7 +20,7 @@ const World = () => {
         useState(null);
     const [mouseDownXY, setMouseDownXY] = useState(null);
     const [mosueXY, setMouseXY] = useState(null);
-    const divRef = useRef(null);
+    const svgRef = useRef(null);
     const [blocks, setBlocks] = useRecoilState(blocksState);
 
     const background = useMemo(() => {
@@ -40,7 +41,7 @@ const World = () => {
 
     const getMousePosition = (e) => {
         const { clientX, clientY } = e;
-        const { left, top } = divRef.current.getBoundingClientRect();
+        const { left, top } = svgRef.current.getBoundingClientRect();
 
         return [clientX - left, clientY - top];
     };
@@ -52,16 +53,13 @@ const World = () => {
     };
 
     const selectBlock = (index) => {
-        return (e) => {
-            e.stopPropagation();
+        return () => {
             setSelectedBlockIndex(index);
         };
     };
 
     const selectBlockAndPin = (blockIndex0) => {
-        return (e, pinIndex0, pin0) => {
-            e.stopPropagation();
-
+        return (pinIndex0, pin0) => {
             const connected = pin0.get('connectWithBlockAndPinIndexes');
 
             if (connected) {
@@ -312,8 +310,8 @@ const World = () => {
 
     return (
         <div
-            ref={divRef}
             className={css`
+                font-size: ${FONT_SIZE}px;
                 width: 100%;
                 height: 100%;
                 background-image: url(${background});
@@ -321,6 +319,10 @@ const World = () => {
                 user-select: none;
             `}
             onMouseDown={(e) => {
+                if (e.target !== svgRef.current) {
+                    return;
+                }
+
                 setMouseDownXY(getMousePosition(e));
             }}
             onMouseMove={(e) => {
@@ -346,6 +348,7 @@ const World = () => {
             }}
         >
             <svg
+                ref={svgRef}
                 className={css`
                     position: absolute;
                     left: 0px;
@@ -365,6 +368,7 @@ const World = () => {
                     createBlock={createBlock}
                 />
             ) : null}
+            <Options />
         </div>
     );
 };

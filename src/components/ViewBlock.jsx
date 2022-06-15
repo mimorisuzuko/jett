@@ -1,16 +1,22 @@
 import { css } from '@emotion/css';
 import BlockContainer from './BlockContainer';
-import { blocksState } from '../atoms';
+import { blocksState, autoReloadState } from '../atoms';
 import { useRecoilValue } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCircleExclamation,
+    faRefresh
+} from '@fortawesome/free-solid-svg-icons';
 import { COLORS } from '../styles';
+import { useState } from 'react';
 
 const ViewBlock = (props) => {
+    const [viewResult, setViewResult] = useState('null');
+    const autoReload = useRecoilValue(autoReloadState);
     const blocks = useRecoilValue(blocksState);
     const { block } = props;
 
-    const value = () => {
+    const calculate = () => {
         const connected = block.getIn([
             'inputPins',
             0,
@@ -51,19 +57,39 @@ const ViewBlock = (props) => {
         <BlockContainer {...props}>
             <div
                 className={css`
-                    background-color: ${COLORS.L_BLACK};
-                    padding: 2px;
-                    display: inline-block;
+                    > * {
+                        background-color: ${COLORS.L_BLACK};
+                        display: inline-block;
+                        margin-right: 1px;
+                        padding: 0 2px;
+                    }
                 `}
             >
-                Result
+                <div>Result</div>
+                {autoReload ? null : (
+                    <div
+                        className={css`
+                            text-align: center;
+                        `}
+                        onClick={() => {
+                            setViewResult(calculate());
+                        }}
+                    >
+                        <FontAwesomeIcon
+                            icon={faRefresh}
+                            className={css`
+                                width: 18px;
+                            `}
+                        />
+                    </div>
+                )}
             </div>
             <div
                 className={css`
                     padding: 4px;
                 `}
             >
-                {value()}
+                {autoReload ? calculate() : viewResult}
             </div>
         </BlockContainer>
     );

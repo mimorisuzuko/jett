@@ -46,7 +46,6 @@ const BlockContainer = ({
         <div
             className={css`
                 position: absolute;
-                font-size: 12px;
             `}
             style={{
                 left: block.get('x'),
@@ -77,8 +76,8 @@ const BlockContainer = ({
                         pin={pin}
                         x={x}
                         y={y}
-                        onMouseDown={(e) => {
-                            onMouseDownPin(e, i, pin);
+                        onMouseDown={() => {
+                            onMouseDownPin(i, pin);
                         }}
                         onMouseUp={() => {
                             onMouseUpPin(i, pin);
@@ -95,8 +94,8 @@ const BlockContainer = ({
                         pin={pin}
                         x={x}
                         y={y}
-                        onMouseDown={(e) => {
-                            onMouseDownPin(e, i, pin);
+                        onMouseDown={() => {
+                            onMouseDownPin(i, pin);
                         }}
                         onMouseUp={() => {
                             onMouseUpPin(i, pin);

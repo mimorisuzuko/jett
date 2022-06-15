@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import BlockContainer from './BlockContainer';
 import BlockButton from './BlockButton';
 import { Fragment, useMemo } from 'react';
-import { COLORS } from '../styles';
+import { COLORS, FONT_SIZE } from '../styles';
 
 const ArgumentBox = ({ onChange, value }) => {
     const width = useMemo(() => {
@@ -10,7 +10,7 @@ const ArgumentBox = ({ onChange, value }) => {
 
         const $s = document.createElement('span');
         $s.style.fontFamily = 'monospace';
-        $s.style.fontSize = 12;
+        $s.style.fontSize = FONT_SIZE;
         $s.style.display = 'inline-block';
         $s.style.padding = '0 4px;';
         $s.innerText = value;
@@ -109,19 +109,16 @@ const FunctionBlock = (props) => {
                 </div>
                 <textarea
                     className={css`
-                        width: calc(100% - 12px);
+                        width: calc(100% - ${FONT_SIZE}px);
                         box-sizing: border-box;
                         border: 1px solid ${COLORS.L_BLACK};
                         background-color: transparent;
                         color: inherit;
                         outline: none;
                         display: block;
-                        margin: 2px 0 2px 12px;
+                        margin: 2px 0 2px ${FONT_SIZE}px;
                     `}
                     value={block.get('code')}
-                    onMouseDown={(e) => {
-                        e.stopPropagation();
-                    }}
                     onChange={({ currentTarget: { value } }) => {
                         updateBlock((a) => a.set('code', value));
                     }}

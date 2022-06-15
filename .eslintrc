@@ -1,0 +1,45 @@
+{
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:react/jsx-runtime",
+		"prettier"
+	],
+	"plugins": [
+		"react"
+	],
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true,
+			"legacyDecorators": true
+		}
+	},
+	"parser": "@babel/eslint-parser",
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
+	},
+	"globals": {},
+	"rules": {
+		"no-console": [
+			"warn",
+			{
+				"allow": [
+					"warn",
+					"error"
+				]
+			}
+		],
+		"react/prop-types": "off",
+		"react/self-closing-comp": [
+			"error",
+			{
+				"component": true,
+				"html": true
+			}
+		]
+	}
+}

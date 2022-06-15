@@ -10,7 +10,8 @@ export const COLORS = {
     L_BLACK: 'rgb(60, 60, 60)',
     LL_BLACK: 'rgb(90, 90, 90)',
     BASE_WHITE: 'white',
-    BASE_RED: 'rgb(244, 67, 54)'
+    BASE_RED: 'rgb(244, 67, 54)',
+    BASE_GREEN: 'rgb(76, 175, 80)'
 };
 
 export const FONT_SIZE = 12;

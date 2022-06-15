@@ -5,13 +5,62 @@ import { useRecoilValue } from 'recoil';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCircleExclamation,
+    faCheckCircle,
     faRefresh
 } from '@fortawesome/free-solid-svg-icons';
 import { COLORS } from '../styles';
 import { useState } from 'react';
 
+const Calculateed = ({ result: { error, value } }) => {
+    return (
+        <div
+            className={css`
+                display: flex;
+                padding: 4px;
+            `}
+        >
+            <div
+                className={css`
+                    margin-top: 4px;
+                    margin-right: 2px;
+                `}
+            >
+                {error ? (
+                    <FontAwesomeIcon
+                        icon={faCircleExclamation}
+                        color={COLORS.BASE_RED}
+                    />
+                ) : (
+                    <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        color={COLORS.BASE_GREEN}
+                    />
+                )}
+            </div>
+            <textarea
+                readOnly
+                className={css`
+                    display: block;
+                    font: inherit;
+                    border: 1px solid ${COLORS.L_BLACK};
+                    background: none;
+                    color: inherit;
+                    outline: none;
+                `}
+                value={value}
+                onMouseDown={(e) => {
+                    e.stopPropagation();
+                }}
+            />
+        </div>
+    );
+};
+
 const ViewBlock = (props) => {
-    const [viewResult, setViewResult] = useState('null');
+    const [manualResult, setManualResult] = useState({
+        error: false,
+        value: 'null'
+    });
     const autoReload = useRecoilValue(autoReloadState);
     const blocks = useRecoilValue(blocksState);
     const { block } = props;
@@ -30,27 +79,16 @@ const ViewBlock = (props) => {
                 );
 
                 if (result === undefined) {
-                    return 'undefined';
+                    return { error: false, value: 'undefined' };
                 }
 
-                return JSON.stringify(result);
+                return { error: false, value: JSON.stringify(result) };
             } catch (err) {
-                return (
-                    <>
-                        <FontAwesomeIcon
-                            icon={faCircleExclamation}
-                            color={COLORS.BASE_RED}
-                            className={css`
-                                margin-right: 2px;
-                            `}
-                        />
-                        {err.message}
-                    </>
-                );
+                return { error: true, value: err.message };
             }
         }
 
-        return 'null';
+        return { error: false, value: 'null' };
     };
 
     return (
@@ -72,7 +110,7 @@ const ViewBlock = (props) => {
                             text-align: center;
                         `}
                         onClick={() => {
-                            setViewResult(calculate());
+                            setManualResult(calculate());
                         }}
                     >
                         <FontAwesomeIcon
@@ -84,13 +122,7 @@ const ViewBlock = (props) => {
                     </div>
                 )}
             </div>
-            <div
-                className={css`
-                    padding: 4px;
-                `}
-            >
-                {autoReload ? calculate() : viewResult}
-            </div>
+            <Calculateed result={autoReload ? calculate() : manualResult} />
         </BlockContainer>
     );
 };

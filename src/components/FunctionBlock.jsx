@@ -112,7 +112,7 @@ const FunctionBlock = (props) => {
                         width: calc(100% - ${FONT_SIZE}px);
                         box-sizing: border-box;
                         border: 1px solid ${COLORS.L_BLACK};
-                        background-color: transparent;
+                        background-color: none;
                         color: inherit;
                         outline: none;
                         display: block;
@@ -121,6 +121,9 @@ const FunctionBlock = (props) => {
                     value={block.get('code')}
                     onChange={({ currentTarget: { value } }) => {
                         updateBlock((a) => a.set('code', value));
+                    }}
+                    onMouseDown={(e) => {
+                        e.stopPropagation();
                     }}
                 />
                 <div>{`}`}</div>
